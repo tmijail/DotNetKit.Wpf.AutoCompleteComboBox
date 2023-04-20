@@ -65,5 +65,10 @@
                 </DataTemplate>
             </dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
         </dotNetKitControls:AutoCompleteComboBox>
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Command="{Binding LoadItemsCommand}"
+            Content="Load items source" />
     </StackPanel>
 </Window>

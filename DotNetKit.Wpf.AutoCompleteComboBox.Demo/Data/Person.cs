@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetKit.Demo.Data
 {
@@ -2083,13 +2081,20 @@ Zulma Avent
 ";
 
         static readonly IReadOnlyList<Person> allPersons =
-            source.Split(new[] { Environment.NewLine , "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            source.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries)
             .Select((name, i) => new Person(i + 1L, name))
             .ToArray();
 
         public static IReadOnlyList<Person> All
         {
-            get { return allPersons; }
+            get
+            {
+                Random rnd = new Random();
+                var persons = allPersons.ToList();
+                // Add a random person to trigger ItemsSourcePropertyChanged 
+                persons.Add(new Person(persons.Count + 1L, $"Person {rnd.Next()}"));
+                return persons;
+            }
         }
     }
 }

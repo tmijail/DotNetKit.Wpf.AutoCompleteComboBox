@@ -1,20 +1,9 @@
-using System;
+using DotNetKit.Demo.Data;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DotNetKit.Demo.Data;
 
 namespace DotNetKit.Demo
 {
@@ -40,9 +29,11 @@ namespace DotNetKit.Demo
             }
             #endregion
 
+            IReadOnlyList<Person> items = new List<Person>();
             public IReadOnlyList<Person> Items
             {
-                get { return PersonModule.All; }
+                get { return items; }
+                set { SetField(ref items, value); }
             }
 
             Person selectedItem;
@@ -57,6 +48,27 @@ namespace DotNetKit.Demo
             {
                 get { return selectedValue; }
                 set { SetField(ref selectedValue, value); }
+            }
+
+            private ICommand loadItemsCommand;
+            public ICommand LoadItemsCommand
+            {
+                get
+                {
+                    return loadItemsCommand;
+                }
+                set
+                {
+                    loadItemsCommand = value;
+                }
+            }
+
+            public ViewModel()
+            {
+                LoadItemsCommand = new RelayCommand((object obj) =>
+                {
+                    Items = PersonModule.All;
+                }, param => true);
             }
         }
 
